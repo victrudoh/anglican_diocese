@@ -12,11 +12,11 @@ const passport = require("passport");
 const cookieSession = require("cookie-session");
 require("./middlewares/passport");
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 4040;
 
 // const MONGODB_URI = "mongodb://localhost:27017/utility";
 const MONGODB_URI =
-  "mongodb+srv://Edikan:pvsantakid@cluster0.qls1f.mongodb.net/utility";
+  "mongodb+srv://Edikan:pvsantakid@anglican-diocese.rauyb.mongodb.net/anglican_diocese";
 
 const app = express();
 const storeSession = new MongoDBStoreSession({
@@ -65,15 +65,15 @@ app.use((req, res, next) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
-const errorController = require("./controllers/error.controller");
-const User = require("./models/user.model");
+// const errorController = require("./controllers/error.controller");
+// const User = require("./models/user.model");
 
-const authRouter = require("./routes/auth.routes");
-const adminRouter = require("./routes/admin.routes");
-const userRouter = require("./routes/user.routes");
-const utilityRouter = require("./routes/utility.routes");
-const orderRouter = require("./routes/order.routes");
-const flutterwaveRouter = require("./routes/flutterwave.routes");
+// const authRouter = require("./routes/auth.routes");
+// const adminRouter = require("./routes/admin.routes");
+// const userRouter = require("./routes/user.routes");
+// const utilityRouter = require("./routes/utility.routes");
+// const orderRouter = require("./routes/order.routes");
+// const flutterwaveRouter = require("./routes/flutterwave.routes");
 
 app.use((req, res, next) => {
   if (!req.session.user) {
@@ -87,14 +87,14 @@ app.use((req, res, next) => {
     .catch((err) => console.log(err, "User error in server.js"));
 });
 
-app.use("/", authRouter);
-app.use("/", userRouter);
-app.use("/", orderRouter);
-app.use("/utility", utilityRouter);
-app.use("/payment", flutterwaveRouter);
-app.use("/admin", adminRouter);
+// app.use("/", authRouter);
+// app.use("/", userRouter);
+// app.use("/", orderRouter);
+// app.use("/utility", utilityRouter);
+// app.use("/payment", flutterwaveRouter);
+// app.use("/admin", adminRouter);
 
-app.use(errorController.get404);
+// app.use(errorController.get404);
 
 mongoose
   .connect(MONGODB_URI, {
