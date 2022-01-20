@@ -27,10 +27,10 @@ module.exports = {
         customer: {
           email: req.body.email,
           phonenumber: req.body.mobile,
-          name: req.body.firstName,
+          name: req.body.firstname,
         },
         meta: {
-          customer_id: req.body.user_id,
+          customer_id: req.user.id,
         },
         customizations: {
           title: "Anglican Diocese",
@@ -41,7 +41,7 @@ module.exports = {
 
       const transaction = await new T_Model({
         tx_ref: transREf,
-        user: req.body.user_id,
+        user: req.user.id,
         email: req.body.email,
         firstName: req.body.firstName,
         surname: req.body.surname,
@@ -83,9 +83,9 @@ module.exports = {
       await transaction.save();
 
       const mailOptions = {
-        to: user.email,
+        to: req.user.email,
         subject: "Payment confirmation",
-        html: `Hello ${user.username}, your payment was successful. <br/> Thanks for your patronage.`,
+        html: `Hello ${req.user.username}, your payment was successful. <br/> Thanks for your patronage.`,
       };
 
     sendMail(mailOptions);      
