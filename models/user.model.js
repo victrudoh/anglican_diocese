@@ -44,8 +44,8 @@ const userSchema = new Schema(
       unique: true,
     },
     media: {
-      type: Object,
-      required: "please include passport",
+      type: String,
+      // required: "please include passport",
     },
     role: {
       type: String,

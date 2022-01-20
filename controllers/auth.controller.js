@@ -27,7 +27,7 @@ module.exports = {
       const address = req.body.address;
       const email = req.body.email;
       // const password = req.body.password;
-      const media = req.body.media;
+      // const media = req.body.media;
       const role = req.body.role;
 
       const emailExists = await User.findOne({ email: email });
@@ -50,7 +50,7 @@ module.exports = {
         address,
         email,
         // password: hashedPassword,
-        media,
+        // media,
         role,
       });
 
