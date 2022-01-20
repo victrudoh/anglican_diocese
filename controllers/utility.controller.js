@@ -23,7 +23,7 @@ module.exports = {
         amount: newAmount,
         currency: currency,
         payment_options: "card",
-        redirect_url: "https://topapp-ng.herokuapp.com/utility/verify",
+        redirect_url: "https://anglican-diocese.herokuapp.com/#",
         customer: {
           email: req.body.email,
           phonenumber: req.body.mobile,
@@ -88,8 +88,8 @@ module.exports = {
         html: `Hello ${req.user.username}, your payment was successful. <br/> Thanks for your patronage.`,
       };
 
-    sendMail(mailOptions);      
-      
+      sendMail(mailOptions);
+
       return res.status(200).send({
         success: true,
         data: {

@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
+const cloudinary = require("../middlewares/cloudinary.js");
 require("dotenv").config();
 
 module.exports = {
@@ -26,9 +27,12 @@ module.exports = {
       const mobile = req.body.mobile;
       const address = req.body.address;
       const email = req.body.email;
+      const role = req.body.role;
+
+      //Upload the image to cloudinary
+      const media = await cloudinary.uploader.upload(req.file.path);
       // const password = req.body.password;
       // const media = req.body.media;
-      const role = req.body.role;
 
       const emailExists = await User.findOne({ email: email });
       if (emailExists) {
