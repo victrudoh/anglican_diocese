@@ -30,11 +30,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-const authRouter = require("./routes/auth.routes");
-const utilityRouter = require("./routes/utility.routes");
-
-app.use("/api", authRouter);
-app.use("/api", utilityRouter);
+require("./routes/index.routes")(app)
 
 mongoose
   .connect(MONGODB_URI, {
