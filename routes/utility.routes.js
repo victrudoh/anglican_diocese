@@ -7,9 +7,9 @@ const utilityController = require("../controllers/utility.controller");
 
 const router = express.Router();
 
-// router.get("/login", authController.getLoginController);
+// router.get("/pay", utilityController.postPayController);
 
-// router.post("/login", authController.postLoginController);
+router.post("/pay", utilityController.postPayController);
 
 
 module.exports = router;

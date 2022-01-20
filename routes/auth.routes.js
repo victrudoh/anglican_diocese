@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.get("/signup", authController.getSignupController);
 
-router.post("/signup", authController.postSignupController);
+router.post("/signup", upload.single('media'), authController.postSignupController);
 
 router.get("/alreadyRegistered", authController.getAlreadyRegisteredController);
 

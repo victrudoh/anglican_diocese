@@ -13,11 +13,15 @@ const TransactionSchema = new Schema(
       type: String,
       required: true,
     },
-    fullname: {
+    firstName: {
       type: String,
       required: true,
     },
-    phone: {
+    surname: {
+      type: String,
+      required: true,
+    },
+    mobile: {
       type: String,
       required: true,
     },
@@ -36,22 +40,6 @@ const TransactionSchema = new Schema(
     currency: {
       type: String,
       required: true,
-    },
-    billersCode: {
-      type: Number,
-      required: true,
-    },
-    serviceID: {
-      type: String,
-      required: true,
-    },
-    meterType: {
-      type: String,
-      required: true,
-    },
-    token: {
-      type: String,
-      defaultValue: "confirm payment to get token"
     },
     status: {
       type: String,

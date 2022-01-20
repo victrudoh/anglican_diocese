@@ -26,8 +26,8 @@ module.exports = {
       const mobile = req.body.mobile;
       const address = req.body.address;
       const email = req.body.email;
-      const password = req.body.password;
-      const passport = req.body.passport;
+      // const password = req.body.password;
+      const media = req.body.media;
       const role = req.body.role;
 
       const emailExists = await User.findOne({ email: email });
@@ -38,7 +38,7 @@ module.exports = {
         });
       }
 
-      const hashedPassword = await bcrypt.hash(password, 12);
+      // const hashedPassword = await bcrypt.hash(password, 12);
       const user = await new User({
         surname,
         firstName,
@@ -49,8 +49,8 @@ module.exports = {
         mobile,
         address,
         email,
-        password: hashedPassword,
-        passport,
+        // password: hashedPassword,
+        media,
         role,
       });
 

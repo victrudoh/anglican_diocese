@@ -43,12 +43,9 @@ const userSchema = new Schema(
       lowercase: true,
       unique: true,
     },
-    password: {
-      type: String,
-      required: true,
-    },
-    passport: {
+    media: {
       type: Object,
+      required: "please include passport",
     },
     role: {
       type: String,
