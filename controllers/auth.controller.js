@@ -78,11 +78,11 @@ module.exports = {
           amount: newAmount,
           currency: currency,
           payment_options: "card",
-          redirect_url: confirmation_url,
+          redirect_url: "confirmation_url",
           customer: {
             email: email,
             phonenumber: mobile,
-            name: firstname,
+            name: firstName,
           },
           meta: {
             customer_id: user._id,
@@ -108,24 +108,16 @@ module.exports = {
 
         // await transaction.save();
 
-        const response = await FLW_services.initiateTransaction(payload);
-
-        return res.status(200).send({
-          success: true,
-          data: {
-            payment_url: response,
-          },
-        });
+        payment_url = await FLW_services.initiateTransaction(payload);
       } catch (err) {
-        res.status(500).send({
-          success: false,
-          message: err.message,
-        });
+        console.log("error", err);
       }
+      // console.log(`payment_url?????`, payment_url);
       return res.status(200).send({
         success: true,
         data: {
           user,
+          payment_url,
           // token,
         },
       });
