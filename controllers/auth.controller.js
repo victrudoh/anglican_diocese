@@ -78,7 +78,7 @@ module.exports = {
           amount: newAmount,
           currency: currency,
           payment_options: "card",
-          redirect_url: "confirmation_url",
+          redirect_url: confirmation_url,
           customer: {
             email: email,
             phonenumber: mobile,
