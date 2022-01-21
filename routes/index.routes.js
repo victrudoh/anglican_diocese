@@ -1,4 +1,5 @@
 const authRouter = require("../routes/auth.routes")
+const adminRouter = require("../routes/admin.routes")
 const utilityRouter = require("../routes/utility.routes");
 
 module.exports = function (app) {
@@ -11,6 +12,8 @@ module.exports = function (app) {
   });
 
 
-app.use("/api/auth", authRouter);
-app.use("/api/utility", utilityRouter);
+  app.use("/api/auth", authRouter);
+  app.use("/api/utility", utilityRouter);
+  app.use("/api/admin", adminRouter);
+
 };

@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 
-const upload = require("../middlewares/multer");
+const { multerUploads } = require("../middlewares/multer");
 
 const authController = require("../controllers/auth.controller");
 
@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.get("/signup", authController.getSignupController);
 
-router.post("/signup", upload.single('media'), authController.postSignupController);
+router.post("/signup", multerUploads.single('media'), authController.postSignupController);
 
 router.get("/alreadyRegistered", authController.getAlreadyRegisteredController);
 

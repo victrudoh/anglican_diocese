@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
-const cloudinary = require("../middlewares/cloudinary.js");
+const { uploadImageSingle } = require("../middlewares/cloudinary.js");
 require("dotenv").config();
 
 module.exports = {
@@ -16,7 +16,7 @@ module.exports = {
     }
   },
 
-  postSignupController: async (req, res) => {
+  postSignupController: async (req, res, next) => {
     try {
       const surname = req.body.surname;
       const firstName = req.body.firstName;
@@ -30,7 +30,8 @@ module.exports = {
       const role = req.body.role;
 
       //Upload the image to cloudinary
-      const media = await cloudinary.uploader.upload(req.file.path);
+      const media = await uploadImageSingle(req, res, next);
+      // const media = await cloudinary.uploader.upload(req.file.path);
       // const password = req.body.password;
       // const media = req.body.media;
 
@@ -54,7 +55,7 @@ module.exports = {
         address,
         email,
         // password: hashedPassword,
-        // media,
+        media,
         role,
       });
 

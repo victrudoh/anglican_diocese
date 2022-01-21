@@ -1,14 +1,18 @@
 const multer = require("multer");
+const DataUriParser = require("datauri/parser");
+const path = require("path");
 
-const fileStorageEngine = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./public/images");
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "__" + file.originalname);
-  },
-});
+const storage = multer.memoryStorage();
+const parser = new DataUriParser();
 
-const upload = multer({ storage: fileStorageEngine });
+const multerUploads = multer({ storage });
 
-module.exports = upload;
+const dataUri = (req) => {
+  console.log(req.file);
+  return parser.format(
+    path.extname(req.file.originalname).toString(),
+    req.file.buffer
+  );
+};
+
+module.exports = { multerUploads, dataUri };
