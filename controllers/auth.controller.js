@@ -2,6 +2,12 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
 const { uploadImageSingle } = require("../middlewares/cloudinary.js");
+const FLW_services = require("../services/flutterwave.services");
+
+const T_Model = require("../models/transaction.model");
+
+const tx_ref = require("../middlewares/tx_ref");
+
 require("dotenv").config();
 
 module.exports = {
@@ -28,12 +34,10 @@ module.exports = {
       const address = req.body.address;
       const email = req.body.email;
       const role = req.body.role;
+      const confirmation_url = req.body.confirmation_url;
 
       //Upload the image to cloudinary
       const media = await uploadImageSingle(req, res, next);
-      // const media = await cloudinary.uploader.upload(req.file.path);
-      // const password = req.body.password;
-      // const media = req.body.media;
 
       const emailExists = await User.findOne({ email: email });
       if (emailExists) {
@@ -61,13 +65,68 @@ module.exports = {
 
       const save = await user.save();
 
-      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+      // const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+      let payment_url = "";
+      try {
+        const currency = "NGN";
+        const amount = parseInt(500);
+        const newAmount = amount;
+        const transREf = await tx_ref.get_Tx_Ref();
 
+        const payload = {
+          tx_ref: transREf,
+          amount: newAmount,
+          currency: currency,
+          payment_options: "card",
+          redirect_url: confirmation_url,
+          customer: {
+            email: email,
+            phonenumber: mobile,
+            name: firstname,
+          },
+          meta: {
+            customer_id: user._id,
+          },
+          customizations: {
+            title: "Anglican Diocese",
+            description: "Pay with card",
+            logo: "#",
+          },
+        };
+
+        // const transaction = await new T_Model({
+        //   tx_ref: transREf,
+        //   user: req.user.id,
+        //   email: req.body.email,
+        //   firstName: req.body.firstName,
+        //   surname: req.body.surname,
+        //   mobile: req.body.mobile,
+        //   currency,
+        //   amount: req.body.amount,
+        //   status: "initiated",
+        // });
+
+        // await transaction.save();
+
+        const response = await FLW_services.initiateTransaction(payload);
+
+        return res.status(200).send({
+          success: true,
+          data: {
+            payment_url: response,
+          },
+        });
+      } catch (err) {
+        res.status(500).send({
+          success: false,
+          message: err.message,
+        });
+      }
       return res.status(200).send({
         success: true,
         data: {
           user,
-          token,
+          // token,
         },
       });
     } catch (err) {
