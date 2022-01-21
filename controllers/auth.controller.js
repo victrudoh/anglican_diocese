@@ -112,13 +112,14 @@ module.exports = {
       } catch (err) {
         console.log("error", err);
       }
-      // console.log(`payment_url?????`, payment_url);
+      console.log(`payment_url?????`, payment_url);
       return res.status(200).send({
         success: true,
+        
         data: {
           user,
-          payment_url,
           // token,
+          payment_url,
         },
       });
     } catch (err) {
