@@ -48,6 +48,8 @@ module.exports = {
       }
 
       // const hashedPassword = await bcrypt.hash(password, 12);
+
+      // CREATE USER
       const user = await new User({
         surname,
         firstName,
@@ -66,6 +68,7 @@ module.exports = {
       const save = await user.save();
 
       // const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+
       let payment_url = "";
       try {
         const currency = "NGN";
@@ -73,6 +76,7 @@ module.exports = {
         const newAmount = amount;
         const transREf = await tx_ref.get_Tx_Ref();
 
+        // FLUTTERWAVE PAYLOAD
         const payload = {
           tx_ref: transREf,
           amount: newAmount,
@@ -90,29 +94,32 @@ module.exports = {
           customizations: {
             title: "Anglican Diocese",
             description: "Pay with card",
-            logo: "#",
+            logo: "/images/logo101.png",
           },
         };
 
-        // const transaction = await new T_Model({
-        //   tx_ref: transREf,
-        //   user: req.user.id,
-        //   email: req.body.email,
-        //   firstName: req.body.firstName,
-        //   surname: req.body.surname,
-        //   mobile: req.body.mobile,
-        //   currency,
-        //   amount: req.body.amount,
-        //   status: "initiated",
-        // });
+        // SAVE TRANSACTION
+        const transaction = await new T_Model({
+          tx_ref: transREf,
+          user: req.user.id,
+          email: req.body.email,
+          firstName: req.body.firstName,
+          surname: req.body.surname,
+          mobile: req.body.mobile,
+          currency,
+          amount: req.body.amount,
+          status: "initiated",
+        });
 
-        // await transaction.save();
+        await transaction.save();
 
         payment_url = await FLW_services.initiateTransaction(payload);
       } catch (err) {
         console.log("error", err);
       }
+
       console.log(`payment_url?????`, payment_url);
+   
       return res.status(200).send({
         success: true,
         

@@ -45,7 +45,11 @@ const userSchema = new Schema(
     },
     media: {
       type: String,
-      // required: "please include passport",
+    },
+    paid: {
+      type: String,
+      required: true,
+      default: "false",
     },
     role: {
       type: String,
