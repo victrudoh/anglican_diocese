@@ -101,7 +101,7 @@ module.exports = {
         // SAVE TRANSACTION
         const transaction = await new T_Model({
           tx_ref: transREf,
-          user: req.user.id,
+          user: user._id,
           email: req.body.email,
           firstName: req.body.firstName,
           surname: req.body.surname,
