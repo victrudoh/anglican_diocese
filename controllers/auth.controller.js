@@ -119,10 +119,10 @@ module.exports = {
       }
 
       console.log(`payment_url?????`, payment_url);
-   
+
       return res.status(200).send({
         success: true,
-        
+
         data: {
           user,
           // token,
@@ -154,11 +154,66 @@ module.exports = {
 
       const user = await User.findOne({ email });
       if (user) {
+        let payment_url = "";
+        try {
+          const currency = "NGN";
+          const amount = parseInt(500);
+          const newAmount = amount;
+          const transREf = await tx_ref.get_Tx_Ref();
+          const email = user.email;
+          const mobile = user.mobile;
+          const firstName = user.firstName;
+
+          // FLUTTERWAVE PAYLOAD
+          const payload = {
+            tx_ref: transREf,
+            amount: newAmount,
+            currency: currency,
+            payment_options: "card",
+            redirect_url: confirmation_url,
+            customer: {
+              email: email,
+              phonenumber: mobile,
+              name: firstName,
+            },
+            meta: {
+              customer_id: user._id,
+            },
+            customizations: {
+              title: "Anglican Diocese",
+              description: "Pay with card",
+              logo: "/images/logo101.png",
+            },
+          };
+
+          // SAVE TRANSACTION
+          const transaction = await new T_Model({
+            tx_ref: transREf,
+            user: req.user.id,
+            email: email,
+            firstName: firstName,
+            surname: surname,
+            mobile: mobile,
+            currency,
+            amount: amount,
+            status: "initiated",
+          });
+
+          await transaction.save();
+
+          payment_url = await FLW_services.initiateTransaction(payload);
+        } catch (err) {
+          console.log("error", err);
+        }
+
+        console.log(`RETURN payment_url?????`, payment_url);
+
         return res.status(200).send({
           success: true,
+
           data: {
             user,
-            message: "User found, proceed to payment",
+            payment_url,
           },
         });
       } else {
