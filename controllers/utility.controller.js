@@ -11,49 +11,33 @@ const tx_ref = require("../middlewares/tx_ref");
 const sendMail = require("../services/mailer.services");
 
 module.exports = {
-  postPayController: async (req, res, next) => {
+  getVerifyController: async (req, res, next) => {
     try {
-      const currency = "NGN";
-      const amount = parseInt(req.body.amount);
-      const newAmount = amount;
-      const transREf = await tx_ref.get_Tx_Ref();
 
-      const payload = {
-        tx_ref: transREf,
-        amount: newAmount,
-        currency: currency,
-        payment_options: "card",
-        redirect_url: "https://anglican-diocese.herokuapp.com/#",
-        customer: {
-          email: req.body.email,
-          phonenumber: req.body.mobile,
-          name: req.body.firstname,
-        },
-        meta: {
-          customer_id: req.user.id,
-        },
-        customizations: {
-          title: "Anglican Diocese",
-          description: "Pay with card",
-          logo: "#",
-        },
-      };
+      const id = req.query.transaction_id;
+      const tx_ref = req.query.tx_ref;
+      const status = req.query.status;
 
-      const transaction = await new T_Model({
-        tx_ref: transREf,
-        user: req.user.id,
-        email: req.body.email,
-        firstName: req.body.firstName,
-        surname: req.body.surname,
-        mobile: req.body.mobile,
-        currency,
-        amount: req.body.amount,
-        status: "initiated",
-      });
+      const verify = await FLW_services.verifyTransaction(id);
 
+      const transaction = await T_Model.findOne({ tx_ref: tx_ref });
+      console.log(
+        "getVerifyController: ~ transaction",
+        transaction
+      );
+
+      transaction.status = status;
       await transaction.save();
 
-      const response = await FLW_services.initiateTransaction(payload);
+      const user = req.session.user;
+
+      const mailOptions = {
+        to: user.email,
+        subject: "Payment confirmation",
+        html: `Hello ${user.username}, your transaction was successful, here is your token; <br/> <b>${token}</b>. <br/> Thanks for your patronage.`,
+      };
+
+      sendMail(mailOptions);
 
       return res.status(200).send({
         success: true,
