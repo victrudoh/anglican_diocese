@@ -10,7 +10,7 @@ const router = express.Router();
 
 // router.get("/pay", utilityController.postPayController);
 
-router.post("/pay", [verifyToken], utilityController.postPayController);
+// router.post("/pay", [verifyToken], utilityController.postPayController);
 
 
 module.exports = router;

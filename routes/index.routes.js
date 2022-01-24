@@ -12,6 +12,6 @@ module.exports = function (app) {
   });
 
   app.use("/api/auth", authRouter);
-  app.use("/api/utility", utilityRouter);
+  // app.use("/api/utility", utilityRouter);
   app.use("/api/admin", adminRouter);
 };
