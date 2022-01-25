@@ -160,9 +160,7 @@ module.exports = {
           const amount = parseInt(500);
           const newAmount = amount;
           const transREf = await tx_ref.get_Tx_Ref();
-          const email = user.email;
-          const mobile = user.mobile;
-          const firstName = user.firstName;
+          const{ mobile, firstName, surname } = user;
 
           // FLUTTERWAVE PAYLOAD
           const payload = {
