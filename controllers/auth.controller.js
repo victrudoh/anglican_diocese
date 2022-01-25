@@ -150,7 +150,7 @@ module.exports = {
 
   postAlreadyRegisteredController: async (req, res) => {
     try {
-      const email = req.body.email;
+     const {email, confirmation_url} = req.body
 
       const user = await User.findOne({ email });
       if (user) {
