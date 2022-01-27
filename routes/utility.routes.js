@@ -14,7 +14,7 @@ const router = express.Router();
 
 // router.get("/date", utilityController.getDateController);
 
-router.post("/webhook", utilityController.getWebhookController);
+router.get("/webhook", utilityController.getWebhookController);
 
 
 module.exports = router;
