@@ -12,5 +12,9 @@ const router = express.Router();
 
 // router.post("/pay", [verifyToken], utilityController.postPayController);
 
+// router.get("/date", utilityController.getDateController);
+
+router.post("/webhook", utilityController.getWebhookController);
+
 
 module.exports = router;

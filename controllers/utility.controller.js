@@ -10,10 +10,11 @@ const tx_ref = require("../middlewares/tx_ref");
 
 const sendMail = require("../services/mailer.services");
 
+const moment = require("moment");
+
 module.exports = {
   getVerifyController: async (req, res, next) => {
     try {
-
       const id = req.query.transaction_id;
       const tx_ref = req.query.tx_ref;
       const status = req.query.status;
@@ -21,10 +22,7 @@ module.exports = {
       const verify = await FLW_services.verifyTransaction(id);
 
       const transaction = await T_Model.findOne({ tx_ref: tx_ref });
-      console.log(
-        "getVerifyController: ~ transaction",
-        transaction
-      );
+      console.log("getVerifyController: ~ transaction", transaction);
 
       transaction.status = status;
       await transaction.save();
@@ -87,5 +85,48 @@ module.exports = {
         message: err.message,
       });
     }
+  },
+
+  // getDateController: async (req, res) => {
+  //   const getDate = Date.now();
+  //   const currentDate = new Date(getDate);
+  //   const date = currentDate.toDateString();
+
+  //   // const err = new Date("Fri Jan 20 2012 11:51:36 GMT-0500").toUTCString();
+
+  //   const time = moment().format("LLLL");
+
+  //   res.send({
+  //     date: date,
+  //     // err: err,
+  //     getDate: getDate,
+  //     time: time,
+  //   });
+  // },
+
+  getWebhookController: async (req, res) => {
+    // if (req.event === "charge.completed" && req.data.tx_ref) {
+    // console.log('Webhook', req.body.event);
+    // return req.body;
+    // }
+
+    var hash = req.headers["verif-hash"];
+
+    if (!hash) {
+      console.log("No hash");
+      res.redirect("#");
+    }
+
+    const secret_hash = process.env.FLUTTERWAVE_WEBHOOK_HASH;
+
+    if (hash !== secret_hash) {
+      console.log("Hash does not match");
+      res.redirect("#");
+    }
+
+    var request_json = JSON.parse(request.body);
+    console.log("~ getWebhookController: ~ request_json", request_json);
+
+    // response.send(200);
   },
 };
