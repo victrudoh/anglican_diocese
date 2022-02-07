@@ -94,7 +94,7 @@ module.exports = {
           customizations: {
             title: "Anglican Diocese",
             description: "Pay with card",
-            logo: "/images/logo101.png",
+            logo: "/public/images/logo101.png",
           },
         };
 

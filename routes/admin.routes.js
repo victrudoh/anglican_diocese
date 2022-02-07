@@ -15,4 +15,8 @@ router.get("/users", adminController.getUsersController);
 
 router.get("/view_user", adminController.getViewUserController);
 
+router.get("/generate_IdCard", adminController.getGenerateIdCardController);
+
+router.get("/generate_QRCode", adminController.getQRCodeController);
+
 module.exports = router;
