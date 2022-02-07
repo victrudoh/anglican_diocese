@@ -11,6 +11,7 @@ const tx_ref = require("../middlewares/tx_ref");
 const sendMail = require("../services/mailer.services");
 
 const moment = require("moment");
+const tz = require("moment-timezone");
 
 module.exports = {
   getVerifyController: async (req, res, next) => {
@@ -87,22 +88,30 @@ module.exports = {
     }
   },
 
-  // getDateController: async (req, res) => {
-  //   const getDate = Date.now();
-  //   const currentDate = new Date(getDate);
-  //   const date = currentDate.toDateString();
+  getDateController: async (req, res) => {
+    const getDate = Date.now();
+    const currentDate = new Date(getDate);
+    const date = currentDate.toDateString();
 
-  //   // const err = new Date("Fri Jan 20 2012 11:51:36 GMT-0500").toUTCString();
+    // const err = new Date("Fri Jan 20 2012 11:51:36 GMT-0500").toUTCString();
 
-  //   const time = moment().format("LLLL");
+    // const time = moment().format("LLLL");
 
-  //   res.send({
-  //     date: date,
-  //     // err: err,
-  //     getDate: getDate,
-  //     time: time,
-  //   });
-  // },
+        // const getDate = Date.now();
+        var d = new Date(getDate);
+        var myTimezone = "Africa/Lagos";
+        var myDatetimeFormat = "DD-MM-YYYY hh:mm:ss a z";
+        var myDatetimeString = moment(d)
+          .tz(myTimezone)
+          .format(myDatetimeFormat);
+
+    res.send({
+      date: date,
+      // err: err,
+      myDatetimeString: myDatetimeString,
+      // time: time,
+    });
+  },
 
   getWebhookController: async (req, res) => {
     // if (req.event === "charge.completed" && req.data.tx_ref) {

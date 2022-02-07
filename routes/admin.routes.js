@@ -7,8 +7,9 @@ const adminController = require("../controllers/admin.controller");
 
 const router = express.Router();
 
-
 router.get("/", adminController.getDashboardController);
+
+// router.get("/dashboard", adminController.getDashboardController);
 
 router.get("/users", adminController.getUsersController);
 

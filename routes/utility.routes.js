@@ -12,7 +12,7 @@ const router = express.Router();
 
 // router.post("/pay", [verifyToken], utilityController.postPayController);
 
-// router.get("/date", utilityController.getDateController);
+router.get("/date", utilityController.getDateController);
 
 router.get("/webhook", utilityController.getWebhookController);
 
