@@ -5,6 +5,7 @@ const FLW_services = require("../services/flutterwave.services");
 
 const User = require("../models/user.model");
 const T_Model = require("../models/transaction.model");
+const Attendance = require("../models/attendance.model");
 
 const tx_ref = require("../middlewares/tx_ref");
 
@@ -12,6 +13,9 @@ const sendMail = require("../services/mailer.services");
 
 const moment = require("moment");
 const tz = require("moment-timezone");
+const getDate = Date.now();
+
+// const setAttendanceCount
 
 module.exports = {
   getVerifyController: async (req, res, next) => {
@@ -97,13 +101,11 @@ module.exports = {
 
     // const time = moment().format("LLLL");
 
-        // const getDate = Date.now();
-        var d = new Date(getDate);
-        var myTimezone = "Africa/Lagos";
-        var myDatetimeFormat = "DD-MM-YYYY hh:mm:ss a z";
-        var myDatetimeString = moment(d)
-          .tz(myTimezone)
-          .format(myDatetimeFormat);
+    // const getDate = Date.now();
+    var d = new Date(getDate);
+    var myTimezone = "Africa/Lagos";
+    var myDatetimeFormat = "DD-MM-YYYY hh:mm:ss a z";
+    var myDatetimeString = moment(d).tz(myTimezone).format(myDatetimeFormat);
 
     res.send({
       date: date,
@@ -139,5 +141,86 @@ module.exports = {
     console.log("~ getWebhookController: ~ request_json", request_json);
 
     // response.send(200);
+  },
+
+  postScanAttendanceController: async (req, res) => {
+    try {
+      const email = req.body.email;
+      const eventName = req.body.eventName;
+
+      // DATE STUFF
+      var d = new Date(getDate);
+      var myTimezone = "Africa/Lagos";
+      var myDatetimeFormat = "DD-MM-YYYY hh:mm:ss a z";
+      var myDatetimeString = moment(d).tz(myTimezone).format(myDatetimeFormat);
+
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        return res.status(404).send({
+          success: false,
+          message: "User not found",
+        });
+      }
+
+      const alreadyAttended = await Attendance.findOne({ email, eventName });
+
+      if (alreadyAttended) {
+        return res.status(404).send({
+          success: false,
+          message: "User already attended this event",
+        });
+      }
+
+      user.attendanceCount = user.attendanceCount + 1;
+
+      const newAttendance = await new Attendance({
+        user: user._id,
+        email,
+        eventName,
+        date: myDatetimeString,
+      });
+
+      await user.save();
+      await newAttendance.save();
+
+      return res.status(200).send({
+        success: true,
+        user: user,
+        newAttendance: newAttendance,
+        message: "User verified, Attendance updated",
+      });
+    } catch (err) {
+      res.status(500).send({
+        success: false,
+        message: err.message,
+      });
+    }
+  },
+
+  postGetEventAttendanceListController: async (req, res) => {
+    try{
+      const eventName = req.body.eventName;
+
+      const Attendees = await Attendance.find({ eventName });
+
+      if (!Attendees) {
+        return res.status(404).send({
+          success: false,
+          message: "Nobody attended this event",
+        });
+      }
+
+      return res.status(200).send({
+        success: true,
+        Attendees: Attendees,
+      });
+
+    } catch(err) {
+      res.status(500).send({
+        success: false,
+        message: err.message,
+      });
+    }
   },
 };

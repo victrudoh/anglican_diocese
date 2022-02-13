@@ -56,6 +56,11 @@ const userSchema = new Schema(
       required: true,
       default: "user",
     },
+    attendanceCount: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
   },
   {
     timestamps: true,

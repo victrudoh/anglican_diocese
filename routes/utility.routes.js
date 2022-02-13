@@ -14,6 +14,10 @@ const router = express.Router();
 
 router.get("/date", utilityController.getDateController);
 
+router.post("/scanAttendance", utilityController.postScanAttendanceController);
+
+router.post("/getAttendanceList", utilityController.postGetEventAttendanceListController);
+
 router.get("/webhook", utilityController.getWebhookController);
 
 
