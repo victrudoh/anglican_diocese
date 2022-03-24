@@ -19,4 +19,6 @@ router.get("/alreadyRegistered", authController.getAlreadyRegisteredController);
 
 router.post("/alreadyRegistered", authController.postAlreadyRegisteredController);
 
+router.get("/verify", authController.getVerifyPayment);
+
 module.exports = router;

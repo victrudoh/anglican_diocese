@@ -424,6 +424,53 @@ module.exports = {
         }
     },
 
+    getVerifyPayment: async(req, res, next) => {
+        try {
+            const id = req.query.transaction_id;
+            console.log("getVerifyPayment: ~ id:", id);
+            const tx_ref = req.query.tx_ref;
+            const status = req.query.status;
+
+            const verify = await FLW_services.verifyTransaction(id);
+
+            const transaction = await T_Model.findOne({ tx_ref: tx_ref });
+            console.log(
+                " ~ transaction", transaction.user
+            );
+
+            const useFromT_Model = transaction.user;
+
+            const getUser = await User.findOne({ _id: useFromT_Model });
+            console.log("getUser before", getUser.paid);
+            getUser.paid = verify.status;
+            await getUser.save();
+            console.log("getUser after", getUser.paid);
+
+            // const user = req.session.user;
+
+            // const mailOptions = {
+            //     to: user.email,
+            //     subject: "Payment confirmation",
+            //     html: `Hello ${user.username}, your transaction was successful, here is your token; <br/> <b>${token}</b>. <br/> Thanks for your patronage.`,
+            // };
+
+            // sendMail(mailOptions);
+
+            res.status(200).send({
+                success: true,
+                message: "Payment successful",
+                data: getUser,
+            });
+        } catch (err) {
+            res.status(500).send({
+                success: false,
+                data: err,
+                message: "user not fond, please register",
+            });
+        }
+    },
+
+
     // getLoginController: async (req, res) => {
     //   try {
     //     res.send("Login");
