@@ -14,10 +14,11 @@ const uploadImageSingle = async (req, res, next) => {
       console.log(req.file);
       if (imageFileFilter(req.file)) {
         const file = dataUri(req).content;
-        console.log("--reached 1--");
+        console.log("--reached 1 Cloudinary--");
         const result = await uploader.upload(file, {
           public_id: `Anglican_Diocese-${Date.now()}`,
         });
+        console.log("result.url", result.url)
         return result.url;
       } else {
         return (

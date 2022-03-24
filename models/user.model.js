@@ -3,69 +3,78 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 mongoose.Promise = global.Promise;
 
-const userSchema = new Schema(
-  {
+const userSchema = new Schema({
+    // title: {
+    //     type: String,
+    //     required: "please enter Title",
+    // },
     surname: {
-      type: String,
-      required: "please enter Surname",
+        type: String,
+        required: "please enter Surname",
     },
     firstName: {
-      type: String,
-      required: "please enter first name",
+        type: String,
+        required: "please enter first name",
     },
     nomenclature: {
-      type: String,
-      required: "please select nomenclature",
+        type: String,
+        required: "please select nomenclature",
     },
     diocese: {
-      type: String,
-      required: "please select diocese",
+        type: String,
+        required: "please select diocese",
     },
     province: {
-      type: String,
-      required: "please select province",
+        type: String,
+        required: "please select province",
     },
     house: {
-      type: String,
-      required: "please select house",
+        type: String,
+        required: "please select house",
+    },
+    laity: {
+        type: String,
     },
     mobile: {
-      type: String,
-      required: true,
+        type: String,
+        required: true,
     },
     address: {
-      type: String,
-      required: true,
+        type: String,
+        required: true,
     },
     email: {
-      type: String,
-      required: "please enter email address",
-      lowercase: true,
-      unique: true,
+        type: String,
+        required: "please enter email address",
+        lowercase: true,
+        unique: true,
     },
     media: {
-      type: String,
+        type: String,
     },
     paid: {
-      type: String,
-      required: true,
-      default: "false",
+        type: String,
+        required: true,
+        default: "false",
     },
     role: {
-      type: String,
-      required: true,
-      default: "user",
+        type: String,
+        required: true,
+        default: "user",
     },
     attendanceCount: {
-      type: Number,
-      required: true,
-      default: 0,
+        type: Number,
+        required: true,
+        default: 0,
     },
-  },
-  {
+    accommodation: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Accommodation",
+        required: true,
+    }
+}, {
     timestamps: true,
-  }
-);
+});
 
 // module.exports = mongoose.model("User", userSchema);
 

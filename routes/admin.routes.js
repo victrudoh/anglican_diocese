@@ -19,4 +19,6 @@ router.get("/generate_IdCard", adminController.getGenerateIdCardController);
 
 router.get("/generate_QRCode", adminController.getQRCodeController);
 
+router.post("/add_accommodation", adminController.postAddAccommodationController);
+
 module.exports = router;
