@@ -73,7 +73,7 @@ module.exports = {
                 }
 
                 // Bishops
-                if (nomenclature === "rt_revd" || nomenclature === 'rt_revd_dr') {
+                if (nomenclature == "rt_revd" || nomenclature == 'rt_revd_dr') {
                     // send to crispan hotel
                     const getAcc = await Acc.findOne({
                         alias: "crispan_H",
@@ -92,7 +92,7 @@ module.exports = {
             }
 
             // Clergy
-            if (house === 'clergy') {
+            if (house == 'clergy') {
                 // send them to Cater center
                 const getAcc = await Acc.findOne({
                     alias: "cater",
@@ -110,14 +110,14 @@ module.exports = {
             }
 
             // Laity
-            if (house === 'laity') {
+            if (house == 'laity') {
                 // set conditions for each based on  nomenclature
 
                 // Mrs
-                if (nomenclature === "mrs" || nomenclature === 'dr_mrs') {
+                if (nomenclature == "mrs" || nomenclature == 'dr_mrs') {
 
                     //  Archbishop wife
-                    if (laity === "arch_bish_wife") {
+                    if (laity == "arch_bish_wife") {
                         // send to novel suites
                         const getAcc = await Acc.findOne({
                             alias: "novel",
@@ -135,7 +135,7 @@ module.exports = {
                     }
 
                     //  Bishop wife
-                    if (laity === "bish_wife") {
+                    if (laity == "bish_wife") {
                         // send to crispan hotel
                         const getAcc = await Acc.findOne({
                             alias: "crispan_H",
@@ -153,7 +153,7 @@ module.exports = {
                     }
 
                     //  Women rep
-                    if (laity === "wom_rep") {
+                    if (laity == "wom_rep") {
                         // send to crispan apartment
                         const getAcc = await Acc.findOne({
                             alias: "crispan_A",
@@ -173,7 +173,7 @@ module.exports = {
                 }
 
                 // Legal Officer
-                if (laity === "legal") {
+                if (laity == "legal") {
                     // do random stuff with value 2, send to any of Valada or Stefans
                     const randNum = Math.floor(Math.random() * 2);
                     console.log("Randnum: ", randNum);
@@ -215,7 +215,7 @@ module.exports = {
                 }
 
                 // Drivers
-                if (laity === "driver") {
+                if (laity == "driver") {
                     // send to crudan sabon barki
                     const getAcc = await Acc.findOne({
                         alias: "crudan",
