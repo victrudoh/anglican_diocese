@@ -428,10 +428,12 @@ module.exports = {
         try {
             const id = req.query.transaction_id;
             console.log("getVerifyPayment: ~ id:", id);
-            const tx_ref = req.query.tx_ref;
+            // const tx_ref = req.query.tx_ref;
             const status = req.query.status;
 
             const verify = await FLW_services.verifyTransaction(id);
+
+            const tx_ref = verify.data.tx_ref;
 
             const transaction = await T_Model.findOne({ tx_ref: tx_ref });
             console.log(
