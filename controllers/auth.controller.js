@@ -351,7 +351,9 @@ module.exports = {
         try {
             const { email, confirmation_url } = req.body
 
-            const user = await User.findOne({ email });
+            const user = await User.findOne({ email }).populate("accommodation");
+
+
             if (user) {
                 let payment_url = "";
                 try {
