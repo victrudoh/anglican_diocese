@@ -356,7 +356,7 @@ module.exports = {
                 let payment_url = "";
                 try {
                     const currency = "NGN";
-                    const amount = parseInt(500);
+                    const amount = parseInt(2000);
                     const newAmount = amount;
                     const transREf = await tx_ref.get_Tx_Ref();
                     const { mobile, firstName, surname } = user;
