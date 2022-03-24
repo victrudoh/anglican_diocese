@@ -440,13 +440,12 @@ module.exports = {
                 " ~ transaction", transaction.user
             );
 
+            // find user and update payment status
             const useFromT_Model = transaction.user;
-
-            const getUser = await User.findOne({ _id: useFromT_Model });
-            console.log("getUser before", getUser.paid);
-            getUser.paid = verify.status;
-            await getUser.save();
-            console.log("getUser after", getUser.paid);
+            const getUser = await User.findOne({ _id: useFromT_Model }).populate("accommodation");
+            console.log("getUser: ", getUser)
+                // getUser.paid = verify.status;
+                // await getUser.save();
 
             // const user = req.session.user;
 
