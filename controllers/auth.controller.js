@@ -268,64 +268,64 @@ module.exports = {
 
             const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
 
-            let payment_url = "";
-            try {
-                const currency = "NGN";
-                const amount = parseInt(2000);
-                const newAmount = amount;
-                const transREf = await tx_ref.get_Tx_Ref();
+            // let payment_url = "";
+            // try {
+            //     const currency = "NGN";
+            //     const amount = parseInt(2000);
+            //     const newAmount = amount;
+            //     const transREf = await tx_ref.get_Tx_Ref();
 
-                // FLUTTERWAVE PAYLOAD
-                const payload = {
-                    tx_ref: transREf,
-                    amount: newAmount,
-                    currency: currency,
-                    payment_options: "card",
-                    redirect_url: confirmation_url,
-                    customer: {
-                        email: email,
-                        phonenumber: mobile,
-                        name: firstName,
-                    },
-                    meta: {
-                        customer_id: user._id,
-                    },
-                    customizations: {
-                        nomenclature: "Anglican Diocese",
-                        description: "Pay with card",
-                        logo: "/public/images/logo101.png",
-                    },
-                };
+            //     // FLUTTERWAVE PAYLOAD
+            //     const payload = {
+            //         tx_ref: transREf,
+            //         amount: newAmount,
+            //         currency: currency,
+            //         payment_options: "card",
+            //         redirect_url: confirmation_url,
+            //         customer: {
+            //             email: email,
+            //             phonenumber: mobile,
+            //             name: firstName,
+            //         },
+            //         meta: {
+            //             customer_id: user._id,
+            //         },
+            //         customizations: {
+            //             nomenclature: "Anglican Diocese",
+            //             description: "Pay with card",
+            //             logo: "/public/images/logo101.png",
+            //         },
+            //     };
 
-                // SAVE TRANSACTION
-                const transaction = await new T_Model({
-                    tx_ref: transREf,
-                    user: user._id,
-                    email: req.body.email,
-                    firstName: req.body.firstName,
-                    surname: req.body.surname,
-                    mobile: req.body.mobile,
-                    currency,
-                    // amount: req.body.amount,
-                    amount: newAmount,
-                    status: "initiated",
-                });
+            //     // SAVE TRANSACTION
+            //     const transaction = await new T_Model({
+            //         tx_ref: transREf,
+            //         user: user._id,
+            //         email: req.body.email,
+            //         firstName: req.body.firstName,
+            //         surname: req.body.surname,
+            //         mobile: req.body.mobile,
+            //         currency,
+            //         // amount: req.body.amount,
+            //         amount: newAmount,
+            //         status: "initiated",
+            //     });
 
-                await transaction.save();
+            //     await transaction.save();
 
-                payment_url = await FLW_services.initiateTransaction(payload);
-            } catch (err) {
-                console.log("error", err);
-            }
+            //     payment_url = await FLW_services.initiateTransaction(payload);
+            // } catch (err) {
+            //     console.log("error", err);
+            // }
 
-            console.log(`payment_url?????`, payment_url);
+            // console.log(`payment_url?????`, payment_url);
 
             return res.status(200).send({
                 success: true,
                 data: {
                     user,
                     token,
-                    payment_url,
+                    // payment_url,
                 },
             });
         } catch (err) {
@@ -355,64 +355,64 @@ module.exports = {
 
 
             if (user) {
-                let payment_url = "";
-                try {
-                    const currency = "NGN";
-                    const amount = parseInt(2000);
-                    const newAmount = amount;
-                    const transREf = await tx_ref.get_Tx_Ref();
-                    const { mobile, firstName, surname } = user;
+                // let payment_url = "";
+                // try {
+                //     const currency = "NGN";
+                //     const amount = parseInt(2000);
+                //     const newAmount = amount;
+                //     const transREf = await tx_ref.get_Tx_Ref();
+                //     const { mobile, firstName, surname } = user;
 
-                    // FLUTTERWAVE PAYLOAD
-                    const payload = {
-                        tx_ref: transREf,
-                        amount: newAmount,
-                        currency: currency,
-                        payment_options: "card",
-                        redirect_url: confirmation_url,
-                        customer: {
-                            email: email,
-                            phonenumber: mobile,
-                            name: firstName,
-                        },
-                        meta: {
-                            customer_id: user._id,
-                        },
-                        customizations: {
-                            nomenclature: "Anglican Diocese",
-                            description: "Pay with card",
-                            logo: "/images/logo101.png",
-                        },
-                    };
+                //     // FLUTTERWAVE PAYLOAD
+                //     const payload = {
+                //         tx_ref: transREf,
+                //         amount: newAmount,
+                //         currency: currency,
+                //         payment_options: "card",
+                //         redirect_url: confirmation_url,
+                //         customer: {
+                //             email: email,
+                //             phonenumber: mobile,
+                //             name: firstName,
+                //         },
+                //         meta: {
+                //             customer_id: user._id,
+                //         },
+                //         customizations: {
+                //             nomenclature: "Anglican Diocese",
+                //             description: "Pay with card",
+                //             logo: "/images/logo101.png",
+                //         },
+                //     };
 
-                    // SAVE TRANSACTION
-                    const transaction = await new T_Model({
-                        tx_ref: transREf,
-                        user: user._id,
-                        email: email,
-                        firstName: firstName,
-                        surname: surname,
-                        mobile: mobile,
-                        currency,
-                        amount: amount,
-                        status: "initiated",
-                    });
+                //     // SAVE TRANSACTION
+                //     const transaction = await new T_Model({
+                //         tx_ref: transREf,
+                //         user: user._id,
+                //         email: email,
+                //         firstName: firstName,
+                //         surname: surname,
+                //         mobile: mobile,
+                //         currency,
+                //         amount: amount,
+                //         status: "initiated",
+                //     });
 
-                    await transaction.save();
+                //     await transaction.save();
 
-                    payment_url = await FLW_services.initiateTransaction(payload);
-                } catch (err) {
-                    console.log("error", err);
-                }
+                //     payment_url = await FLW_services.initiateTransaction(payload);
+                // } catch (err) {
+                //     console.log("error", err);
+                // }
 
-                console.log(`RETURN payment_url?????`, payment_url);
+                // console.log(`RETURN payment_url?????`, payment_url);
 
                 return res.status(200).send({
                     success: true,
 
                     data: {
                         user,
-                        payment_url,
+                        // payment_url,
                     },
                 });
             } else {
