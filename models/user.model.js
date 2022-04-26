@@ -55,7 +55,7 @@ const userSchema = new Schema({
     paid: {
         type: String,
         required: true,
-        default: "false",
+        default: "true",
     },
     role: {
         type: String,
