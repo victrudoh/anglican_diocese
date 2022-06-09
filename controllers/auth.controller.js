@@ -11,11 +11,8 @@ const Acc = require("../models/accommodation.model");
 const { uploadImageSingle } = require("../middlewares/cloudinary.js");
 const tx_ref = require("../middlewares/tx_ref");
 
-
 //SERVICES
 const FLW_services = require("../services/flutterwave.services");
-
-
 
 module.exports = {
   getSignupController: async (req, res) => {
@@ -106,20 +103,44 @@ module.exports = {
 
       // Clergy
       if (house == "clergy") {
-        // send them to Cater center
-        const getAcc = await Acc.findOne({
-          alias: "cater",
-        });
-        // if no rooms
-        if (getAcc.rooms <= 0) {
-          return res.status(400).send({
-            success: false,
-            message: "No free room in hotel",
+        // do random stuff with value 2, send to any of eyn or ecwa
+        const randNum = Math.floor(Math.random() * 2);
+        // console.log("Randnum: ", randNum);
+
+        if (randNum === 0) {
+          // send to eyn
+          const getAcc = await Acc.findOne({
+            alias: "eyn",
           });
+
+          // if no rooms, use next hotel
+          if (getAcc.rooms <= 0) {
+            getAcc = await Acc.findOne({
+              alias: "ecwa",
+            });
+          }
+
+          getAcc.rooms = getAcc.rooms - 1;
+          await getAcc.save();
+          accommodation = getAcc._id;
         }
-        getAcc.rooms = getAcc.rooms - 1;
-        await getAcc.save();
-        accommodation = getAcc._id;
+
+        if (randNum === 1) {
+          // send to ecwa
+          const getAcc = await Acc.findOne({
+            alias: "ecwa",
+          });
+
+          // if no rooms, use next hotel
+          if (getAcc.rooms <= 0) {
+            getAcc = await Acc.findOne({
+              alias: "eyn",
+            });
+          }
+          getAcc.rooms = getAcc.rooms - 1;
+          await getAcc.save();
+          accommodation = getAcc._id;
+        }
       }
 
       // Laity
@@ -185,20 +206,20 @@ module.exports = {
 
         // Legal Officer
         if (laity == "legal") {
-          // do random stuff with value 2, send to any of Valada or Stefans
+          // do random stuff with value 2, send to any of city or lamonde
           const randNum = Math.floor(Math.random() * 2);
           console.log("Randnum: ", randNum);
 
           if (randNum === 0) {
-            // send to valada
+            // send to city
             const getAcc = await Acc.findOne({
-              alias: "valada",
+              alias: "city",
             });
 
             // if no rooms, use next hotel
             if (getAcc.rooms <= 0) {
               getAcc = await Acc.findOne({
-                alias: "stefans",
+                alias: "lamonde",
               });
             }
 
@@ -208,15 +229,15 @@ module.exports = {
           }
 
           if (randNum === 1) {
-            // send to stefans
+            // send to lamonde
             const getAcc = await Acc.findOne({
-              alias: "stefans",
+              alias: "lamonde",
             });
 
             // if no rooms, use next hotel
             if (getAcc.rooms <= 0) {
               getAcc = await Acc.findOne({
-                alias: "valada",
+                alias: "city",
               });
             }
             getAcc.rooms = getAcc.rooms - 1;
