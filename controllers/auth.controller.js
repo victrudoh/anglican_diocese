@@ -109,7 +109,7 @@ module.exports = {
 
         if (randNum === 0) {
           // send to eyn
-          const getAcc = await Acc.findOne({
+          let getAcc = await Acc.findOne({
             alias: "eyn",
           });
 
@@ -127,7 +127,7 @@ module.exports = {
 
         if (randNum === 1) {
           // send to ecwa
-          const getAcc = await Acc.findOne({
+          let getAcc = await Acc.findOne({
             alias: "ecwa",
           });
 
@@ -212,7 +212,7 @@ module.exports = {
 
           if (randNum === 0) {
             // send to city
-            const getAcc = await Acc.findOne({
+            let getAcc = await Acc.findOne({
               alias: "city",
             });
 
@@ -230,7 +230,7 @@ module.exports = {
 
           if (randNum === 1) {
             // send to lamonde
-            const getAcc = await Acc.findOne({
+            let getAcc = await Acc.findOne({
               alias: "lamonde",
             });
 
